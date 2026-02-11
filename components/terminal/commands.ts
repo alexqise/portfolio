@@ -1,0 +1,132 @@
+export interface CommandResult {
+  output: string[];
+  action?: "clear" | "open-url" | "set-theme";
+  url?: string;
+  theme?: "dark" | "light";
+}
+
+const HELP_TEXT = [
+  "",
+  "  available commands:",
+  "",
+  "  about      who i am",
+  "  projects   things i've built",
+  "  resume     open my resume",
+  "  contact    how to reach me",
+  "  elo        competitive rankings",
+  "  dark       switch to dark mode",
+  "  light      switch to light mode",
+  "  clear      clear the terminal",
+  "  help       show this message",
+  "",
+];
+
+const ABOUT_TEXT = [
+  "",
+  "  cs @ columbia. incoming @ glean.",
+  "  building agents and ai orchestration systems.",
+  "",
+  "  super interested in agents and systems that",
+  "  think for themselves.",
+  "",
+];
+
+const PROJECTS_TEXT = [
+  "",
+  "  things i've built:",
+  "",
+  "  ~ opticon",
+  "    multi-agent orchestration with cloud vms",
+  "    each agent gets its own computer",
+  "",
+  "  ~ drafted",
+  "    agentic draft editor for college essays",
+  "    context on your extracurriculars and writing style",
+  "",
+  "  ~ typr",
+  "    real-time competitive typeracing",
+  "    monkeytype but multiplayer",
+  "",
+];
+
+const CONTACT_TEXT = [
+  "",
+  "  get in touch:",
+  "",
+  "  email      alex@example.com",
+  "  github     github.com/alexqise",
+  "  linkedin   linkedin.com/in/alexqi",
+  "  twitter    x.com/alexqi",
+  "",
+];
+
+const ELO_TEXT = [
+  "",
+  "  competitive rankings:",
+  "",
+  "  masters           league of legends",
+  "  ultimate champion  clash",
+  "  ultimate league    pvz heroes",
+  '  1st / 600         columbia poker tournament',
+  '  1st / 200         sig "the showdown" qualifier',
+  "",
+];
+
+export const WELCOME_TEXT = [
+  "  ╭─────────────────────────────╮",
+  "  │                             │",
+  "  │   welcome to alexqi.dev     │",
+  "  │   type 'help' to begin      │",
+  "  │                             │",
+  "  ╰─────────────────────────────╯",
+  "",
+];
+
+export function executeCommand(input: string): CommandResult {
+  const cmd = input.trim().toLowerCase();
+
+  switch (cmd) {
+    case "help":
+      return { output: HELP_TEXT };
+    case "about":
+      return { output: ABOUT_TEXT };
+    case "projects":
+      return { output: PROJECTS_TEXT };
+    case "contact":
+      return { output: CONTACT_TEXT };
+    case "elo":
+    case "stats":
+      return { output: ELO_TEXT };
+    case "resume":
+      return {
+        output: ["", "  opening resume...", ""],
+        action: "open-url",
+        url: "/resume.pdf",
+      };
+    case "dark":
+      return {
+        output: ["", "  switched to dark mode.", ""],
+        action: "set-theme",
+        theme: "dark",
+      };
+    case "light":
+      return {
+        output: ["", "  switched to light mode.", ""],
+        action: "set-theme",
+        theme: "light",
+      };
+    case "clear":
+      return { output: [], action: "clear" };
+    case "":
+      return { output: [] };
+    default:
+      return {
+        output: [
+          "",
+          `  command not found: ${cmd}`,
+          "  type 'help' for available commands.",
+          "",
+        ],
+      };
+  }
+}

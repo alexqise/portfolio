@@ -1,0 +1,188 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useTheme } from "next-themes";
+import { executeCommand, WELCOME_TEXT } from "./commands";
+
+interface HistoryLine {
+  type: "input" | "output";
+  text: string;
+}
+
+export function Terminal() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [history, setHistory] = useState<HistoryLine[]>([]);
+  const [input, setInput] = useState("");
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { setTheme } = useTheme();
+
+  const scrollToBottom = useCallback(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [history, scrollToBottom]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setHistory(WELCOME_TEXT.map((text) => ({ type: "output", text })));
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [isOpen]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const newHistory: HistoryLine[] = [
+      ...history,
+      { type: "input", text: input },
+    ];
+
+    const result = executeCommand(input);
+
+    if (result.action === "clear") {
+      setHistory([]);
+    } else {
+      const outputLines = result.output.map((text) => ({
+        type: "output" as const,
+        text,
+      }));
+      setHistory([...newHistory, ...outputLines]);
+    }
+
+    if (result.action === "open-url" && result.url) {
+      window.open(result.url, "_blank");
+    }
+
+    if (result.action === "set-theme" && result.theme) {
+      setTheme(result.theme);
+    }
+
+    if (input.trim()) {
+      setCommandHistory((prev) => [input, ...prev]);
+    }
+    setHistoryIndex(-1);
+    setInput("");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (historyIndex < commandHistory.length - 1) {
+        const newIndex = historyIndex + 1;
+        setHistoryIndex(newIndex);
+        setInput(commandHistory[newIndex]);
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        const newIndex = historyIndex - 1;
+        setHistoryIndex(newIndex);
+        setInput(commandHistory[newIndex]);
+      } else {
+        setHistoryIndex(-1);
+        setInput("");
+      }
+    }
+  };
+
+  return (
+    <>
+      {/* Trigger button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`fixed bottom-5 right-5 z-50 w-10 h-10 flex items-center justify-center rounded-lg transition-all ${
+          isOpen
+            ? "bg-transparent text-muted hover:text-foreground"
+            : "bg-surface border border-border text-muted hover:text-foreground hover:border-foreground/20"
+        }`}
+        aria-label="Toggle terminal"
+      >
+        {isOpen ? (
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path
+              d="M1 1l12 12M13 1L1 13"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
+        ) : (
+          <span className="text-xs font-bold">&gt;_</span>
+        )}
+      </button>
+
+      {/* Terminal panel */}
+      {isOpen && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 animate-slide-up">
+          <div
+            className="bg-[#0d0d0d] border-t border-[#2a2a2a] shadow-2xl"
+            style={{ height: "40vh" }}
+          >
+            {/* Title bar */}
+            <div className="flex items-center justify-between px-4 py-2 border-b border-[#2a2a2a]">
+              <div className="flex items-center gap-2">
+                <span className="text-[0.65rem] text-[#888]">terminal</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-[0.6rem] text-[#555]">bash</span>
+              </div>
+            </div>
+
+            {/* Terminal body */}
+            <div
+              ref={scrollRef}
+              className="terminal-scroll overflow-y-auto px-4 py-3 font-mono text-[0.75rem] leading-relaxed"
+              style={{ height: "calc(40vh - 72px)" }}
+              onClick={() => inputRef.current?.focus()}
+            >
+              {history.map((line, i) => (
+                <div key={i} className="min-h-[1.25rem]">
+                  {line.type === "input" ? (
+                    <div className="flex gap-2">
+                      <span className="text-[#6a9955] shrink-0">
+                        visitor@alexqi
+                      </span>
+                      <span className="text-[#569cd6] shrink-0">~</span>
+                      <span className="text-[#888] shrink-0">$</span>
+                      <span className="text-[#d4d4d4]">{line.text}</span>
+                    </div>
+                  ) : (
+                    <span className="text-[#cccccc]">{line.text}</span>
+                  )}
+                </div>
+              ))}
+
+              {/* Input line */}
+              <form onSubmit={handleSubmit} className="flex gap-2 min-h-[1.25rem]">
+                <span className="text-[#6a9955] shrink-0">
+                  visitor@alexqi
+                </span>
+                <span className="text-[#569cd6] shrink-0">~</span>
+                <span className="text-[#888] shrink-0">$</span>
+                <div className="relative flex-1">
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="w-full bg-transparent text-[#d4d4d4] outline-none caret-[#d4d4d4] text-[0.75rem]"
+                    autoComplete="off"
+                    spellCheck={false}
+                  />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
