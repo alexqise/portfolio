@@ -1,51 +1,16 @@
-import { AsciiHero } from "@/components/ascii-hero";
-import { About } from "@/components/about";
-import { Projects } from "@/components/projects";
-import { Elo } from "@/components/elo";
-import { GitHubGrid } from "@/components/github-grid";
-import { SpotifyGrid } from "@/components/spotify-grid";
-import { Contact } from "@/components/contact";
-import { Footer } from "@/components/footer";
+"use client";
+
+import { useVersion } from "@/components/version-context";
+import { V1Layout } from "@/components/v1-layout";
+import { V2Layout } from "@/components/v2-layout";
 import { Terminal } from "@/components/terminal/terminal";
-import { ScrollReveal } from "@/components/scroll-reveal";
 
 export default function Home() {
+  const { version } = useVersion();
+
   return (
     <>
-      <main className="mx-auto max-w-2xl px-6 py-12 sm:py-20">
-        <ScrollReveal>
-          <AsciiHero />
-        </ScrollReveal>
-
-        <div className="space-y-20">
-          <ScrollReveal delay={100}>
-            <About />
-          </ScrollReveal>
-
-          <ScrollReveal delay={50}>
-            <Projects />
-          </ScrollReveal>
-
-          <ScrollReveal delay={50}>
-            <Elo />
-          </ScrollReveal>
-
-          <ScrollReveal delay={50}>
-            <GitHubGrid />
-          </ScrollReveal>
-
-          <ScrollReveal delay={50}>
-            <SpotifyGrid />
-          </ScrollReveal>
-
-          <ScrollReveal delay={50}>
-            <Contact />
-          </ScrollReveal>
-        </div>
-
-        <Footer />
-      </main>
-
+      {version === "v1" ? <V1Layout /> : <V2Layout />}
       <Terminal />
     </>
   );
