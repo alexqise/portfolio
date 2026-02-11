@@ -1,8 +1,8 @@
 const links = [
-  { label: "email", href: "mailto:alex@example.com", display: "alex@example.com" },
+  { label: "email", href: "mailto:alexqi321@gmail.com", display: "alexqi321@gmail.com" },
   { label: "github", href: "https://github.com/alexqise", display: "alexqise" },
-  { label: "linkedin", href: "https://linkedin.com/in/alexqi", display: "alexqi" },
-  { label: "twitter", href: "https://x.com/alexqi", display: "@alexqi" },
+  { label: "linkedin", href: "https://linkedin.com/in/alqi", display: "alqi" },
+  { label: "twitter", href: "https://x.com/alex_qise", display: "@alex_qise" },
 ];
 
 export function Contact() {

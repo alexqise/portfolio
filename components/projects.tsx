@@ -27,7 +27,7 @@ export function Projects() {
           previously interned at{" "}
           <Link href="https://www.capitalone.com">capital one</Link> (w/ return
           offer). won{" "}
-          <Link href="#">columbia&apos;s largest hackathon</Link>.
+          <Link href="https://www.linkedin.com/posts/alqi_mbzuai-activity-7426988620823166976-MONC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaLYWQBI-ciWkDxna1rVbzeAcWbXR8a8JM">columbia&apos;s largest hackathon</Link>.
         </p>
 
         <p className="text-muted">some things i&apos;ve built:</p>
@@ -36,21 +36,21 @@ export function Projects() {
           <li className="flex gap-3">
             <span className="text-foreground shrink-0">~</span>
             <span>
-              <Link href="#">opticon</Link> — multi-agent orchestration with
+              <Link href="https://devpost.com/software/opticon">opticon</Link> — multi-agent orchestration with
               cloud vms, each agent gets its own computer
             </span>
           </li>
           <li className="flex gap-3">
             <span className="text-foreground shrink-0">~</span>
             <span>
-              <Link href="#">drafted</Link> — agentic draft editor for college
+              <Link href="https://drafted.college">drafted</Link> — agentic draft editor for college
               essays, context on your extracurriculars and writing style
             </span>
           </li>
           <li className="flex gap-3">
             <span className="text-foreground shrink-0">~</span>
             <span>
-              <Link href="#">typr</Link> — real-time competitive typeracing,
+              <Link href="https://playtypr.com">typr</Link> — real-time competitive typeracing,
               monkeytype but multiplayer
             </span>
           </li>

@@ -53,10 +53,10 @@ const CONTACT_TEXT = [
   "",
   "  get in touch:",
   "",
-  "  email      alex@example.com",
+  "  email      alexqi321@gmail.com",
   "  github     github.com/alexqise",
-  "  linkedin   linkedin.com/in/alexqi",
-  "  twitter    x.com/alexqi",
+  "  linkedin   linkedin.com/in/alqi",
+  "  twitter    x.com/alex_qise",
   "",
 ];
 
