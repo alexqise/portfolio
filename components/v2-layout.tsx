@@ -50,7 +50,7 @@ export function V2Layout() {
       <main className="flex-1 mx-auto w-full max-w-5xl px-8 sm:px-16 lg:px-24 py-10 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_4fr] gap-5 lg:gap-7">
           {/* ── Left column ── */}
-          <div className="space-y-8 min-w-0">
+          <div className="space-y-4 min-w-0">
             <div className="space-y-4">
               <div className="relative w-full aspect-square overflow-hidden">
                 <Image
@@ -64,15 +64,9 @@ export function V2Layout() {
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
                 alex qi
               </h1>
-              {/* About */}
-              <div className="text-sm leading-relaxed">
-                <p className="text-foreground">
-                  cs @{" "}
-                  <Link href="https://columbia.edu">columbia</Link>.
-                  incoming @{" "}
-                  <Link href="https://glean.com">glean</Link>.
-                </p>
-              </div>
+              <p className="text-sm text-muted">
+                i like building things that think for themselves.
+              </p>
             </div>
 
             {/* Spotify */}
@@ -106,14 +100,20 @@ export function V2Layout() {
               </SocialIcon>
             </div>
 
+            {/* About */}
+            <p className="text-sm leading-relaxed text-foreground">
+              cs @{" "}
+              <Link href="https://columbia.edu">columbia</Link>.
+              incoming @{" "}
+              <Link href="https://glean.com">glean</Link>.
+            </p>
+
             {/* Intro text */}
             <p className="text-sm leading-relaxed text-muted">
-              previously interned at{" "}
-              <Link href="https://www.capitalone.com">capital one</Link> (w/
-              return offer). won{" "}
+              previous swe intern at{" "}
+              <Link href="https://www.capitalone.com">capital one</Link>. won{" "}
               <Link href="https://www.linkedin.com/posts/alqi_mbzuai-activity-7426988620823166976-MONC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaLYWQBI-ciWkDxna1rVbzeAcWbXR8a8JM">columbia&apos;s largest hackathon</Link>.
-              {" "}super interested in agents and ai orchestration. i like building
-              things that think for themselves.
+              {" "}interested in agents and ai orchestration.
             </p>
 
             {/* Projects */}
