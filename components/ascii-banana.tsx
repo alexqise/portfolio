@@ -158,11 +158,10 @@ export function AsciiBanana() {
         lastInteraction = performance.now();
       };
 
-      // ── Zoom state ──
+      // ── Zoom state (desktop only) ──
       const MIN_Z = 3;
       const MAX_Z = 10;
       const ZOOM_SENSITIVITY = 0.01;
-      let pinchDist = 0;
 
       const onWheel = (e: WheelEvent) => {
         // Only zoom on pinch (ctrlKey is set by trackpad pinch gestures)
@@ -175,37 +174,15 @@ export function AsciiBanana() {
         lastInteraction = performance.now();
       };
 
-      const getTouchDist = (e: TouchEvent) => {
-        const [a, b] = [e.touches[0], e.touches[1]];
-        return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
-      };
+      const isMobile = window.innerWidth < 768;
 
-      const onTouchStart = (e: TouchEvent) => {
-        if (e.touches.length === 2) {
-          pinchDist = getTouchDist(e);
-        }
-      };
-      const onTouchMove = (e: TouchEvent) => {
-        if (e.touches.length === 2) {
-          e.preventDefault();
-          const newDist = getTouchDist(e);
-          const delta = pinchDist - newDist;
-          camera.position.z = Math.min(
-            MAX_Z,
-            Math.max(MIN_Z, camera.position.z + delta * 0.02)
-          );
-          pinchDist = newDist;
-          lastInteraction = performance.now();
-        }
-      };
-
-      dom.style.cursor = "grab";
-      dom.addEventListener("pointerdown", onPointerDown);
-      window.addEventListener("pointermove", onPointerMove);
-      window.addEventListener("pointerup", onPointerUp);
-      dom.addEventListener("wheel", onWheel, { passive: false });
-      dom.addEventListener("touchstart", onTouchStart, { passive: true });
-      dom.addEventListener("touchmove", onTouchMove, { passive: false });
+      if (!isMobile) {
+        dom.style.cursor = "grab";
+        dom.addEventListener("pointerdown", onPointerDown);
+        window.addEventListener("pointermove", onPointerMove);
+        window.addEventListener("pointerup", onPointerUp);
+        dom.addEventListener("wheel", onWheel, { passive: false });
+      }
 
       // ── Animation ──
       const autoSpeed = 0.8;
@@ -244,8 +221,6 @@ export function AsciiBanana() {
         window.removeEventListener("pointermove", onPointerMove);
         window.removeEventListener("pointerup", onPointerUp);
         dom.removeEventListener("wheel", onWheel);
-        dom.removeEventListener("touchstart", onTouchStart);
-        dom.removeEventListener("touchmove", onTouchMove);
       };
     })();
 

@@ -69,8 +69,10 @@ export function V2Layout() {
               </p>
             </div>
 
-            {/* Spotify */}
-            <SpotifyGrid vertical />
+            {/* Spotify — desktop only (mobile version at bottom of right col) */}
+            <div className="hidden lg:block">
+              <SpotifyGrid vertical />
+            </div>
           </div>
 
           {/* ── Right column ── */}
@@ -168,6 +170,11 @@ export function V2Layout() {
                   &quot;the showdown&quot; qualifier
                 </li>
               </ul>
+            </div>
+
+            {/* Spotify — mobile only */}
+            <div className="lg:hidden">
+              <SpotifyGrid vertical />
             </div>
           </div>
         </div>
