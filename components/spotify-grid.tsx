@@ -28,8 +28,8 @@ export function SpotifyGrid({ vertical = false }: { vertical?: boolean }) {
   if (error) {
     return (
       <section className="space-y-6">
-        <h2 className="text-xs tracking-widest uppercase text-muted">
-          listening to
+        <h2 className="text-xs tracking-widest text-muted">
+          top 5 of the month
         </h2>
         <p className="text-sm text-muted">[ spotify not connected ]</p>
       </section>
@@ -39,8 +39,8 @@ export function SpotifyGrid({ vertical = false }: { vertical?: boolean }) {
   if (tracks.length === 0) {
     return (
       <section className="space-y-6">
-        <h2 className="text-xs tracking-widest uppercase text-muted">
-          listening to
+        <h2 className="text-xs tracking-widest text-muted">
+          top 5 of the month
         </h2>
         <div className="grid grid-cols-5 gap-3">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -56,8 +56,8 @@ export function SpotifyGrid({ vertical = false }: { vertical?: boolean }) {
 
   return (
     <section className="space-y-6">
-      <h2 className="text-xs tracking-widest uppercase text-muted">
-        listening to
+      <h2 className="text-xs tracking-widest text-muted">
+        top 5 of the month:
       </h2>
 
       {vertical ? (

@@ -25,8 +25,8 @@ export function Projects() {
       <div className="space-y-4 text-sm leading-relaxed">
         <p className="text-muted">
           previously interned at{" "}
-          <Link href="https://www.capitalone.com">capital one</Link> (w/ return
-          offer). won{" "}
+          <Link href="https://www.capitalone.com">capital one</Link>
+          . won{" "}
           <Link href="https://www.linkedin.com/posts/alqi_mbzuai-activity-7426988620823166976-MONC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaLYWQBI-ciWkDxna1rVbzeAcWbXR8a8JM">columbia&apos;s largest hackathon</Link>.
         </p>
 

@@ -44,7 +44,7 @@ export function GitHubGrid() {
   if (error) {
     return (
       <section className="space-y-6">
-        <h2 className="text-xs tracking-widest uppercase text-muted">
+        <h2 className="text-xs tracking-widest text-muted">
           contributions
         </h2>
         <p className="text-sm text-muted">[ github data unavailable ]</p>
@@ -55,7 +55,7 @@ export function GitHubGrid() {
   if (!data) {
     return (
       <section className="space-y-6">
-        <h2 className="text-xs tracking-widest uppercase text-muted">
+        <h2 className="text-xs tracking-widest text-muted">
           contributions
         </h2>
         <div className="h-[90px] rounded bg-surface animate-pulse" />
@@ -66,7 +66,7 @@ export function GitHubGrid() {
   return (
     <section className="space-y-6">
       <div className="flex items-baseline justify-between">
-        <h2 className="text-xs tracking-widest uppercase text-muted">
+        <h2 className="text-xs tracking-widest text-muted">
           contributions
         </h2>
         <span className="text-xs text-muted">
