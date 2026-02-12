@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
+import { useVersion } from "../version-context";
 import { executeCommand, WELCOME_TEXT } from "./commands";
 
 interface HistoryLine {
@@ -18,6 +19,7 @@ export function Terminal() {
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { setTheme } = useTheme();
+  const { setVersion } = useVersion();
 
   const scrollToBottom = useCallback(() => {
     if (scrollRef.current) {
@@ -29,9 +31,14 @@ export function Terminal() {
     scrollToBottom();
   }, [history, scrollToBottom]);
 
+  const hasOpened = useRef(false);
+
   useEffect(() => {
     if (isOpen) {
-      setHistory(WELCOME_TEXT.map((text) => ({ type: "output", text })));
+      if (!hasOpened.current) {
+        setHistory(WELCOME_TEXT.map((text) => ({ type: "output", text })));
+        hasOpened.current = true;
+      }
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isOpen]);
@@ -64,6 +71,10 @@ export function Terminal() {
       setTheme(result.theme);
     }
 
+    if (result.action === "set-version" && result.version) {
+      setVersion(result.version);
+    }
+
     if (input.trim()) {
       setCommandHistory((prev) => [input, ...prev]);
     }
@@ -94,35 +105,20 @@ export function Terminal() {
 
   return (
     <>
-      {/* Trigger button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-lg transition-all ${
-          isOpen
-            ? "w-10 h-10 justify-center bg-transparent text-muted hover:text-foreground"
-            : "h-8 px-3 bg-surface border border-border text-foreground hover:bg-border"
-        }`}
-        aria-label="Toggle terminal"
-      >
-        {isOpen ? (
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path
-              d="M1 1l12 12M13 1L1 13"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
+      {/* Trigger button — only visible when terminal is closed */}
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-lg transition-all h-8 px-3 bg-surface border border-border text-foreground hover:bg-border"
+          aria-label="Open terminal"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="4 17 10 11 4 5" />
+            <line x1="12" y1="19" x2="20" y2="19" />
           </svg>
-        ) : (
-          <>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="4 17 10 11 4 5" />
-              <line x1="12" y1="19" x2="20" y2="19" />
-            </svg>
-            <span className="text-xs font-mono">terminal</span>
-          </>
-        )}
-      </button>
+          <span className="text-xs font-mono">terminal</span>
+        </button>
+      )}
 
       {/* Terminal panel */}
       {isOpen && (
@@ -138,6 +134,20 @@ export function Terminal() {
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-[0.6rem] text-muted">bash</span>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-muted hover:text-foreground transition-colors"
+                  aria-label="Close terminal"
+                >
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                    <path
+                      d="M1 1l12 12M13 1L1 13"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
 

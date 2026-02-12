@@ -1,8 +1,9 @@
 export interface CommandResult {
   output: string[];
-  action?: "clear" | "open-url" | "set-theme";
+  action?: "clear" | "open-url" | "set-theme" | "set-version";
   url?: string;
   theme?: "dark" | "light";
+  version?: "v1" | "v2";
 }
 
 const HELP_TEXT = [
@@ -15,6 +16,7 @@ const HELP_TEXT = [
   "  contact: how to reach me",
   "  dark: switch to dark mode",
   "  light: switch to light mode",
+  "  git switch <version>: switch layout (v1, v2, ...)",
   "  clear: clear the terminal",
   "  help: show this message",
   "",
@@ -98,6 +100,18 @@ export function executeCommand(input: string): CommandResult {
         output: ["", "  switched to light mode.", ""],
         action: "set-theme",
         theme: "light",
+      };
+    case "git switch v1":
+      return {
+        output: ["", "  switched to branch 'v1'", ""],
+        action: "set-version",
+        version: "v1",
+      };
+    case "git switch v2":
+      return {
+        output: ["", "  switched to branch 'v2'", ""],
+        action: "set-version",
+        version: "v2",
       };
     case "clear":
       return { output: [], action: "clear" };

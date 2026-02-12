@@ -1,7 +1,6 @@
 const rankings = [
   { rank: "masters", game: "league of legends" },
   { rank: "ultimate champion", game: "clash" },
-  { rank: "ultimate league", game: "pvz heroes" },
   { rank: "1st / 600", game: "columbia poker tournament" },
   { rank: '1st / 200', game: 'sig "the showdown" qualifier' },
 ];
