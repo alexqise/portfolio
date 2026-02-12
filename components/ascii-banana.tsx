@@ -155,7 +155,7 @@ export function AsciiBanana() {
   }, []);
 
   return (
-    <div className="h-screen relative select-none overflow-hidden">
+    <div className="h-[115vh] relative select-none overflow-hidden">
       {/* Container — text-shadow creates RGB chromatic aberration on the ASCII chars */}
       <div
         ref={containerRef}
