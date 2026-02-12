@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { AsciiBanana } from "./ascii-banana";
 import { GitHubGrid } from "./github-grid";
 import { SpotifyGrid } from "./spotify-grid";
@@ -47,25 +48,31 @@ export function V2Layout() {
     <div className="min-h-screen flex flex-col">
       <AsciiBanana />
       <main className="flex-1 mx-auto w-full max-w-5xl px-8 sm:px-16 lg:px-24 py-10 lg:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_4fr] gap-5 lg:gap-7">
           {/* ── Left column ── */}
-          <div className="space-y-8">
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              alex qi
-            </h1>
-
-            {/* About */}
-            <div className="space-y-3 text-sm leading-relaxed">
-              <p className="text-foreground">
-                cs @{" "}
-                <Link href="https://columbia.edu">columbia</Link>.
-                incoming @{" "}
-                <Link href="https://glean.com">glean</Link>.
-              </p>
-              <p className="text-muted">
-                super interested in agents and ai orchestration. i like building
-                things that think for themselves.
-              </p>
+          <div className="space-y-8 min-w-0">
+            <div className="space-y-4">
+              <div className="relative w-full aspect-square overflow-hidden">
+                <Image
+                  src="/curious-george.png"
+                  alt="Alex Qi"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+                alex qi
+              </h1>
+              {/* About */}
+              <div className="text-sm leading-relaxed">
+                <p className="text-foreground">
+                  cs @{" "}
+                  <Link href="https://columbia.edu">columbia</Link>.
+                  incoming @{" "}
+                  <Link href="https://glean.com">glean</Link>.
+                </p>
+              </div>
             </div>
 
             {/* Spotify */}
@@ -73,7 +80,7 @@ export function V2Layout() {
           </div>
 
           {/* ── Right column ── */}
-          <div className="space-y-8">
+          <div className="space-y-6 min-w-0">
             {/* Social icons */}
             <div className="flex items-center gap-4">
               <SocialIcon href="https://x.com/alex_qise" label="Twitter / X">
@@ -105,10 +112,9 @@ export function V2Layout() {
               <Link href="https://www.capitalone.com">capital one</Link> (w/
               return offer). won{" "}
               <Link href="https://www.linkedin.com/posts/alqi_mbzuai-activity-7426988620823166976-MONC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaLYWQBI-ciWkDxna1rVbzeAcWbXR8a8JM">columbia&apos;s largest hackathon</Link>.
+              {" "}super interested in agents and ai orchestration. i like building
+              things that think for themselves.
             </p>
-
-            {/* GitHub contributions */}
-            <GitHubGrid />
 
             {/* Projects */}
             <div className="space-y-3">
@@ -135,30 +141,30 @@ export function V2Layout() {
               </ul>
             </div>
 
+            {/* GitHub contributions */}
+            <GitHubGrid />
+
             {/* Elo */}
             <div className="space-y-2 text-sm">
-              <p className="text-xs tracking-widest uppercase text-muted">
-                competitive
+              <p className="text-xs tracking-widest text-muted">
+                my finest achievements:
               </p>
               <ul className="space-y-1 text-muted">
                 <li>
-                  <span className="text-foreground">masters</span> — league of
+                  <span className="text-foreground">masters</span> league of
                   legends
                 </li>
                 <li>
-                  <span className="text-foreground">ultimate champion</span> —
-                  clash
+                  <span className="text-foreground">ultimate champion </span>  
+                  clash royale
                 </li>
                 <li>
-                  <span className="text-foreground">ultimate league</span> — pvz
-                  heroes
+                  <span className="text-foreground">1st of 600</span> columbia
+                  poker tournament 2025
                 </li>
                 <li>
-                  <span className="text-foreground">1st / 600</span> — columbia
-                  poker tournament
-                </li>
-                <li>
-                  <span className="text-foreground">1st / 200</span> — sig
+                  <span className="text-foreground">1st of 200</span>{" "}
+                  <Link href="https://sig.com">SIG</Link>{" "}
                   &quot;the showdown&quot; qualifier
                 </li>
               </ul>
