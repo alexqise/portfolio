@@ -62,7 +62,7 @@ export function V2Layout() {
                 />
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-                alex qi
+                Alex Qi
               </h1>
               <p className="text-sm text-muted">
                 i like building things that think for themselves.
