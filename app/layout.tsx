@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "alex qi",
   description:
     "cs @ columbia. incoming @ glean. building agents and ai orchestration systems.",
+  icons: {
+    icon: "/banana.png",
+  },
   openGraph: {
     title: "alex qi",
     description:

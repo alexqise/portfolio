@@ -138,7 +138,7 @@ export function AsciiBanana() {
         isDragging = true;
         prevX = e.clientX;
         prevY = e.clientY;
-        container.style.cursor = "grabbing";
+        dom.style.cursor = "grabbing";
       };
       const onPointerMove = (e: PointerEvent) => {
         if (!isDragging) return;
@@ -154,7 +154,7 @@ export function AsciiBanana() {
       };
       const onPointerUp = () => {
         isDragging = false;
-        container.style.cursor = "grab";
+        dom.style.cursor = "grab";
         lastInteraction = performance.now();
       };
 
@@ -199,13 +199,13 @@ export function AsciiBanana() {
         }
       };
 
-      container.style.cursor = "grab";
-      container.addEventListener("pointerdown", onPointerDown);
+      dom.style.cursor = "grab";
+      dom.addEventListener("pointerdown", onPointerDown);
       window.addEventListener("pointermove", onPointerMove);
       window.addEventListener("pointerup", onPointerUp);
-      container.addEventListener("wheel", onWheel, { passive: false });
-      container.addEventListener("touchstart", onTouchStart, { passive: true });
-      container.addEventListener("touchmove", onTouchMove, { passive: false });
+      dom.addEventListener("wheel", onWheel, { passive: false });
+      dom.addEventListener("touchstart", onTouchStart, { passive: true });
+      dom.addEventListener("touchmove", onTouchMove, { passive: false });
 
       // ── Animation ──
       const autoSpeed = 0.8;
@@ -240,12 +240,12 @@ export function AsciiBanana() {
 
       // Store cleanup refs
       cleanupDrag = () => {
-        container.removeEventListener("pointerdown", onPointerDown);
+        dom.removeEventListener("pointerdown", onPointerDown);
         window.removeEventListener("pointermove", onPointerMove);
         window.removeEventListener("pointerup", onPointerUp);
-        container.removeEventListener("wheel", onWheel);
-        container.removeEventListener("touchstart", onTouchStart);
-        container.removeEventListener("touchmove", onTouchMove);
+        dom.removeEventListener("wheel", onWheel);
+        dom.removeEventListener("touchstart", onTouchStart);
+        dom.removeEventListener("touchmove", onTouchMove);
       };
     })();
 
@@ -272,7 +272,7 @@ export function AsciiBanana() {
         }}
       />
       <div
-        className={`absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted transition-opacity duration-700 z-10 ${
+        className={`fixed bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted transition-opacity duration-700 z-10 ${
           scrolled ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
       >
