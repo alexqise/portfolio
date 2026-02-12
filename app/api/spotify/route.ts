@@ -8,6 +8,10 @@ const TOKEN_URL = "https://accounts.spotify.com/api/token";
 const TOP_TRACKS_URL =
   "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5";
 
+// In-memory cache to avoid hammering Spotify
+let cache: { data: unknown; expires: number } | null = null;
+const CACHE_TTL = 3600 * 1000; // 1 hour
+
 async function getAccessToken(): Promise<string> {
   const basic = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(
     "base64"
@@ -26,7 +30,8 @@ async function getAccessToken(): Promise<string> {
   });
 
   if (!response.ok) {
-    throw new Error(`Token refresh failed: ${response.status}`);
+    const text = await response.text();
+    throw new Error(`Token refresh failed: ${response.status} ${text}`);
   }
 
   const data = await response.json();
@@ -37,8 +42,13 @@ export async function GET() {
   if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
     return NextResponse.json(
       { error: "Spotify credentials not configured" },
-      { status: 500 }
+      { status: 503 }
     );
+  }
+
+  // Return cached data if fresh
+  if (cache && Date.now() < cache.expires) {
+    return NextResponse.json(cache.data);
   }
 
   try {
@@ -46,7 +56,6 @@ export async function GET() {
 
     const response = await fetch(TOP_TRACKS_URL, {
       headers: { Authorization: `Bearer ${accessToken}` },
-      next: { revalidate: 3600 }, // 1 hour cache
     });
 
     if (!response.ok) {
@@ -70,10 +79,14 @@ export async function GET() {
       })
     );
 
-    return NextResponse.json({ tracks });
-  } catch {
+    const result = { tracks };
+    cache = { data: result, expires: Date.now() + CACHE_TTL };
+
+    return NextResponse.json(result);
+  } catch (err) {
+    console.error("Spotify API error:", err);
     return NextResponse.json(
-      { error: "Failed to fetch Spotify data" },
+      { error: String(err) },
       { status: 500 }
     );
   }
