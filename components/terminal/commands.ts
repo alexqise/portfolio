@@ -7,17 +7,16 @@ export interface CommandResult {
 
 const HELP_TEXT = [
   "",
-  "  available commands:",
+  "  commands:",
   "",
-  "  about      who i am",
-  "  projects   things i've built",
-  "  resume     open my resume",
-  "  contact    how to reach me",
-  "  elo        competitive rankings",
-  "  dark       switch to dark mode",
-  "  light      switch to light mode",
-  "  clear      clear the terminal",
-  "  help       show this message",
+  "  about: who i am",
+  "  projects: things i've built",
+  "  resume: open my resume",
+  "  contact: how to reach me",
+  "  dark: switch to dark mode",
+  "  light: switch to light mode",
+  "  clear: clear the terminal",
+  "  help: show this message",
   "",
 ];
 
@@ -60,18 +59,6 @@ const CONTACT_TEXT = [
   "",
 ];
 
-const ELO_TEXT = [
-  "",
-  "  competitive rankings:",
-  "",
-  "  masters           league of legends",
-  "  ultimate champion  clash",
-  "  ultimate league    pvz heroes",
-  '  1st / 600         columbia poker tournament',
-  '  1st / 200         sig "the showdown" qualifier',
-  "",
-];
-
 export const WELCOME_TEXT = [
   "  ╭─────────────────────────────╮",
   "  │                             │",
@@ -94,9 +81,6 @@ export function executeCommand(input: string): CommandResult {
       return { output: PROJECTS_TEXT };
     case "contact":
       return { output: CONTACT_TEXT };
-    case "elo":
-    case "stats":
-      return { output: ELO_TEXT };
     case "resume":
       return {
         output: ["", "  opening resume...", ""],

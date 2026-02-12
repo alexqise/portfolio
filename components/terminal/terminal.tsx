@@ -100,7 +100,7 @@ export function Terminal() {
         className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-lg transition-all ${
           isOpen
             ? "w-10 h-10 justify-center bg-transparent text-muted hover:text-foreground"
-            : "h-10 px-4 bg-surface border border-border text-muted hover:text-foreground hover:border-foreground/20"
+            : "h-8 px-3 bg-surface border border-border text-foreground hover:bg-border"
         }`}
         aria-label="Toggle terminal"
       >
@@ -115,7 +115,7 @@ export function Terminal() {
           </svg>
         ) : (
           <>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="4 17 10 11 4 5" />
               <line x1="12" y1="19" x2="20" y2="19" />
             </svg>
@@ -128,16 +128,16 @@ export function Terminal() {
       {isOpen && (
         <div className="fixed bottom-0 left-0 right-0 z-40 animate-slide-up">
           <div
-            className="bg-[#0d0d0d] border-t border-[#2a2a2a] shadow-2xl"
+            className="bg-surface border-t border-border shadow-2xl"
             style={{ height: "40vh" }}
           >
             {/* Title bar */}
-            <div className="flex items-center justify-between px-4 py-2 border-b border-[#2a2a2a]">
+            <div className="flex items-center justify-between px-4 py-2 border-b border-border">
               <div className="flex items-center gap-2">
-                <span className="text-[0.65rem] text-[#888]">terminal</span>
+                <span className="text-[0.65rem] text-muted">terminal</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-[0.6rem] text-[#555]">bash</span>
+                <span className="text-[0.6rem] text-muted">bash</span>
               </div>
             </div>
 
@@ -152,26 +152,26 @@ export function Terminal() {
                 <div key={i} className="min-h-[1.25rem]">
                   {line.type === "input" ? (
                     <div className="flex gap-2">
-                      <span className="text-[#6a9955] shrink-0">
+                      <span className="text-muted shrink-0">
                         visitor@alexqi
                       </span>
-                      <span className="text-[#569cd6] shrink-0">~</span>
-                      <span className="text-[#888] shrink-0">$</span>
-                      <span className="text-[#d4d4d4]">{line.text}</span>
+                      <span className="text-foreground shrink-0">~</span>
+                      <span className="text-muted shrink-0">$</span>
+                      <span className="text-foreground">{line.text}</span>
                     </div>
                   ) : (
-                    <span className="text-[#cccccc]">{line.text}</span>
+                    <span className="text-muted">{line.text}</span>
                   )}
                 </div>
               ))}
 
               {/* Input line */}
               <form onSubmit={handleSubmit} className="flex gap-2 min-h-[1.25rem]">
-                <span className="text-[#6a9955] shrink-0">
+                <span className="text-muted shrink-0">
                   visitor@alexqi
                 </span>
-                <span className="text-[#569cd6] shrink-0">~</span>
-                <span className="text-[#888] shrink-0">$</span>
+                <span className="text-foreground shrink-0">~</span>
+                <span className="text-muted shrink-0">$</span>
                 <div className="relative flex-1">
                   <input
                     ref={inputRef}
@@ -179,7 +179,7 @@ export function Terminal() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    className="w-full bg-transparent text-[#d4d4d4] outline-none caret-[#d4d4d4] text-[0.75rem]"
+                    className="w-full bg-transparent text-foreground outline-none caret-foreground text-[0.75rem]"
                     autoComplete="off"
                     spellCheck={false}
                   />
