@@ -1,5 +1,6 @@
 "use client";
 
+import { AsciiBanana } from "./ascii-banana";
 import { GitHubGrid } from "./github-grid";
 import { SpotifyGrid } from "./spotify-grid";
 import { Footer } from "./footer";
@@ -44,6 +45,7 @@ const SocialIcon = ({
 export function V2Layout() {
   return (
     <div className="min-h-screen flex flex-col">
+      <AsciiBanana />
       <main className="flex-1 mx-auto w-full max-w-5xl px-8 sm:px-16 lg:px-24 py-10 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16">
           {/* ── Left column ── */}
