@@ -20,6 +20,7 @@ export function AsciiBanana() {
     let disposed = false;
     let animId = 0;
     let onResize: (() => void) | null = null;
+    let cleanupDrag: (() => void) | null = null;
     let effectDom: HTMLElement | null = null;
 
     (async () => {
@@ -122,12 +123,106 @@ export function AsciiBanana() {
       group.add(model);
       scene.add(group);
 
-      // ── Animation (time-based) ──
-      const t0 = performance.now();
+      // ── Drag-to-rotate state ──
+      let isDragging = false;
+      let prevX = 0;
+      let prevY = 0;
+      let dragRotY = 0;
+      let dragRotX = 0;
+      let autoRotY = 0;
+      let lastInteraction = 0;
+      const RESUME_DELAY = 1000; // ms before auto-spin resumes
+      const DRAG_SENSITIVITY = 0.005;
+
+      const onPointerDown = (e: PointerEvent) => {
+        isDragging = true;
+        prevX = e.clientX;
+        prevY = e.clientY;
+        container.style.cursor = "grabbing";
+      };
+      const onPointerMove = (e: PointerEvent) => {
+        if (!isDragging) return;
+        const dx = e.clientX - prevX;
+        const dy = e.clientY - prevY;
+        dragRotY += dx * DRAG_SENSITIVITY;
+        dragRotX += dy * DRAG_SENSITIVITY;
+        // Clamp vertical rotation
+        dragRotX = Math.max(-1, Math.min(1, dragRotX));
+        prevX = e.clientX;
+        prevY = e.clientY;
+        lastInteraction = performance.now();
+      };
+      const onPointerUp = () => {
+        isDragging = false;
+        container.style.cursor = "grab";
+        lastInteraction = performance.now();
+      };
+
+      // ── Zoom state ──
+      const MIN_Z = 3;
+      const MAX_Z = 10;
+      const ZOOM_SENSITIVITY = 0.01;
+      let pinchDist = 0;
+
+      const onWheel = (e: WheelEvent) => {
+        // Only zoom on pinch (ctrlKey is set by trackpad pinch gestures)
+        if (!e.ctrlKey) return;
+        e.preventDefault();
+        camera.position.z = Math.min(
+          MAX_Z,
+          Math.max(MIN_Z, camera.position.z + e.deltaY * ZOOM_SENSITIVITY)
+        );
+        lastInteraction = performance.now();
+      };
+
+      const getTouchDist = (e: TouchEvent) => {
+        const [a, b] = [e.touches[0], e.touches[1]];
+        return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+      };
+
+      const onTouchStart = (e: TouchEvent) => {
+        if (e.touches.length === 2) {
+          pinchDist = getTouchDist(e);
+        }
+      };
+      const onTouchMove = (e: TouchEvent) => {
+        if (e.touches.length === 2) {
+          e.preventDefault();
+          const newDist = getTouchDist(e);
+          const delta = pinchDist - newDist;
+          camera.position.z = Math.min(
+            MAX_Z,
+            Math.max(MIN_Z, camera.position.z + delta * 0.02)
+          );
+          pinchDist = newDist;
+          lastInteraction = performance.now();
+        }
+      };
+
+      container.style.cursor = "grab";
+      container.addEventListener("pointerdown", onPointerDown);
+      window.addEventListener("pointermove", onPointerMove);
+      window.addEventListener("pointerup", onPointerUp);
+      container.addEventListener("wheel", onWheel, { passive: false });
+      container.addEventListener("touchstart", onTouchStart, { passive: true });
+      container.addEventListener("touchmove", onTouchMove, { passive: false });
+
+      // ── Animation ──
+      const autoSpeed = 0.8;
+      let lastTime = performance.now();
       const animate = () => {
         if (disposed) return;
-        const elapsed = (performance.now() - t0) / 1000;
-        group.rotation.y = elapsed * 0.8; // spin left-to-right
+        const now = performance.now();
+        const dt = (now - lastTime) / 1000;
+        lastTime = now;
+
+        // Resume auto-rotation after idle
+        if (!isDragging && now - lastInteraction > RESUME_DELAY) {
+          autoRotY += dt * autoSpeed;
+        }
+
+        group.rotation.y = autoRotY + dragRotY;
+        group.rotation.x = dragRotX;
         effect.render(scene, camera);
         animId = requestAnimationFrame(animate);
       };
@@ -142,12 +237,23 @@ export function AsciiBanana() {
         overrideFont();
       };
       window.addEventListener("resize", onResize);
+
+      // Store cleanup refs
+      cleanupDrag = () => {
+        container.removeEventListener("pointerdown", onPointerDown);
+        window.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerup", onPointerUp);
+        container.removeEventListener("wheel", onWheel);
+        container.removeEventListener("touchstart", onTouchStart);
+        container.removeEventListener("touchmove", onTouchMove);
+      };
     })();
 
     return () => {
       disposed = true;
       cancelAnimationFrame(animId);
       if (onResize) window.removeEventListener("resize", onResize);
+      if (cleanupDrag) cleanupDrag();
       if (effectDom && containerRef.current?.contains(effectDom)) {
         containerRef.current.removeChild(effectDom);
       }
