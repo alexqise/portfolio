@@ -97,10 +97,10 @@ export function Terminal() {
       {/* Trigger button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-5 right-5 z-50 w-10 h-10 flex items-center justify-center rounded-lg transition-all ${
+        className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-lg transition-all ${
           isOpen
-            ? "bg-transparent text-muted hover:text-foreground"
-            : "bg-surface border border-border text-muted hover:text-foreground hover:border-foreground/20"
+            ? "w-10 h-10 justify-center bg-transparent text-muted hover:text-foreground"
+            : "h-10 px-4 bg-surface border border-border text-muted hover:text-foreground hover:border-foreground/20"
         }`}
         aria-label="Toggle terminal"
       >
@@ -114,7 +114,13 @@ export function Terminal() {
             />
           </svg>
         ) : (
-          <span className="text-xs font-bold">&gt;_</span>
+          <>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="4 17 10 11 4 5" />
+              <line x1="12" y1="19" x2="20" y2="19" />
+            </svg>
+            <span className="text-xs font-mono">terminal</span>
+          </>
         )}
       </button>
 
