@@ -1,7 +1,6 @@
 export interface CommandResult {
   output: string[];
-  action?: "clear" | "open-url" | "set-theme" | "set-version";
-  url?: string;
+  action?: "clear" | "set-theme" | "set-version";
   theme?: "dark" | "light";
   version?: "v1" | "v2";
 }
@@ -12,7 +11,6 @@ const HELP_TEXT = [
   "",
   "  about: who i am",
   "  projects: things i've built",
-  "  resume: open my resume",
   "  contact: how to reach me",
   "  dark: switch to dark mode",
   "  light: switch to light mode",
@@ -27,7 +25,7 @@ const ABOUT_TEXT = [
   "  cs @ columbia. incoming @ glean.",
   "  building agents and ai orchestration systems.",
   "",
-  "  super interested in agents and systems that",
+  "  interested in agents and systems that",
   "  think for themselves.",
   "",
 ];
@@ -83,12 +81,6 @@ export function executeCommand(input: string): CommandResult {
       return { output: PROJECTS_TEXT };
     case "contact":
       return { output: CONTACT_TEXT };
-    case "resume":
-      return {
-        output: ["", "  opening resume...", ""],
-        action: "open-url",
-        url: "/resume.pdf",
-      };
     case "dark":
       return {
         output: ["", "  switched to dark mode.", ""],

@@ -63,10 +63,6 @@ export function Terminal() {
       setHistory([...newHistory, ...outputLines]);
     }
 
-    if (result.action === "open-url" && result.url) {
-      window.open(result.url, "_blank");
-    }
-
     if (result.action === "set-theme" && result.theme) {
       setTheme(result.theme);
     }
@@ -170,7 +166,7 @@ export function Terminal() {
                       <span className="text-foreground">{line.text}</span>
                     </div>
                   ) : (
-                    <span className="text-muted">{line.text}</span>
+                    <span className="text-muted whitespace-pre">{line.text}</span>
                   )}
                 </div>
               ))}
