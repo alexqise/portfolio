@@ -3,12 +3,12 @@
 import { ThemeToggle } from "./theme-toggle";
 import { useVersion } from "./version-context";
 
-type VersionOption = { label: "v1" | "v2"; enabled: true } | { label: "v3"; enabled: false };
+type VersionOption = { label: "v1" | "v2" | "v3"; enabled: true };
 
 const versions: VersionOption[] = [
   { label: "v1", enabled: true },
   { label: "v2", enabled: true },
-  { label: "v3", enabled: false },
+  { label: "v3", enabled: true },
 ];
 
 export function Footer() {
@@ -24,7 +24,7 @@ export function Footer() {
           return (
             <button
               key={v.label}
-              onClick={() => isEnabled && setVersion(v.label as "v1" | "v2")}
+              onClick={() => isEnabled && setVersion(v.label)}
               disabled={!isEnabled}
               className={`px-2 py-1 rounded transition-colors ${
                 isActive

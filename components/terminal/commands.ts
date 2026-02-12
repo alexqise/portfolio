@@ -2,7 +2,7 @@ export interface CommandResult {
   output: string[];
   action?: "clear" | "set-theme" | "set-version";
   theme?: "dark" | "light";
-  version?: "v1" | "v2";
+  version?: "v1" | "v2" | "v3";
 }
 
 const HELP_TEXT = [
@@ -104,6 +104,12 @@ export function executeCommand(input: string): CommandResult {
         output: ["", "  switched to branch 'v2'", ""],
         action: "set-version",
         version: "v2",
+      };
+    case "git switch v3":
+      return {
+        output: ["", "  switched to branch 'v3'", ""],
+        action: "set-version",
+        version: "v3",
       };
     case "clear":
       return { output: [], action: "clear" };
