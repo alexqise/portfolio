@@ -153,6 +153,7 @@ export function AsciiBanana() {
         lastInteraction = performance.now();
       };
       const onPointerUp = () => {
+        if (!isDragging) return;
         isDragging = false;
         dom.style.cursor = "grab";
         lastInteraction = performance.now();
