@@ -18,11 +18,11 @@ interface ContributionData {
 }
 
 function getColor(count: number, isDark: boolean): string {
-  if (count === 0) return isDark ? "#161616" : "#eaeaea";
-  if (count <= 3) return isDark ? "#2a2a2a" : "#c6c6c6";
-  if (count <= 6) return isDark ? "#4a4a4a" : "#999";
-  if (count <= 9) return isDark ? "#777" : "#666";
-  return isDark ? "#b0b0b0" : "#333";
+  if (count === 0) return isDark ? "#161616" : "#ccc7be";
+  if (count <= 3) return isDark ? "#2a2a2a" : "#b5afa4";
+  if (count <= 6) return isDark ? "#4a4a4a" : "#978f84";
+  if (count <= 9) return isDark ? "#777" : "#7a7368";
+  return isDark ? "#b0b0b0" : "#4a453e";
 }
 
 export function GitHubGrid() {
