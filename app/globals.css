@@ -3,11 +3,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #fafafa;
-  --foreground: #171717;
-  --muted: #a3a3a3;
-  --border-color: #e5e5e5;
-  --surface: #f0f0f0;
+  --background: #ebe8e2;
+  --foreground: #2a2824;
+  --muted: #6a645c;
+  --border-color: #cfc9bf;
+  --surface: #e0dbd3;
+  --ascii-color: #1f1d1a;
+  --ascii-shadow: -2px 0 rgba(80, 55, 55, 0.22), 2px 0 rgba(55, 70, 90, 0.22);
 }
 
 .dark {
@@ -16,6 +18,8 @@
   --muted: #737373;
   --border-color: #1e1e1e;
   --surface: #111111;
+  --ascii-color: #e5e5e5;
+  --ascii-shadow: -2px 0 rgba(255, 0, 0, 0.25), 2px 0 rgba(0, 220, 255, 0.25);
 }
 
 @theme inline {
@@ -63,7 +67,7 @@ body {
   background: transparent;
 }
 .terminal-scroll::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--border-color);
   border-radius: 3px;
 }
 
