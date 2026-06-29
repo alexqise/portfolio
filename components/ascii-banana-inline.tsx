@@ -12,6 +12,7 @@ export function AsciiBananaInline() {
     let animId = 0;
     let onResize: (() => void) | null = null;
     let cleanupDrag: (() => void) | null = null;
+    let themeObserver: MutationObserver | null = null;
     let effectDom: HTMLElement | null = null;
 
     (async () => {
@@ -53,7 +54,7 @@ export function AsciiBananaInline() {
       effect.setSize(w, h);
 
       const dom = effect.domElement as HTMLElement;
-      dom.style.color = "var(--foreground)";
+      dom.style.color = "var(--ascii-color)";
       dom.style.backgroundColor = "transparent";
       dom.style.position = "absolute";
       dom.style.inset = "0";
@@ -111,6 +112,18 @@ export function AsciiBananaInline() {
       const group = new THREE.Group();
       group.add(model);
       scene.add(group);
+
+      const applyTheme = () => {
+        const isDark = document.documentElement.classList.contains("dark");
+        dom.style.color = "var(--ascii-color)";
+        mat.color.setHex(isDark ? 0xbbbbbb : 0x444444);
+      };
+      applyTheme();
+      themeObserver = new MutationObserver(applyTheme);
+      themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
 
       // ── Drag-to-rotate state ──
       let isDragging = false;
@@ -216,6 +229,7 @@ export function AsciiBananaInline() {
       cancelAnimationFrame(animId);
       if (onResize) window.removeEventListener("resize", onResize);
       if (cleanupDrag) cleanupDrag();
+      themeObserver?.disconnect();
       if (effectDom && containerRef.current?.contains(effectDom)) {
         containerRef.current.removeChild(effectDom);
       }
@@ -227,8 +241,7 @@ export function AsciiBananaInline() {
       ref={containerRef}
       className="relative w-full h-full select-none overflow-hidden"
       style={{
-        textShadow:
-          "-2px 0 rgba(255,0,0,0.25), 2px 0 rgba(0,220,255,0.25)",
+        textShadow: "var(--ascii-shadow)",
       }}
     />
   );
