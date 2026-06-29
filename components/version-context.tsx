@@ -2,15 +2,15 @@
 
 import { createContext, useContext, useState } from "react";
 
-type Version = "v1" | "v2" | "v3";
+type Version = "v1" | "v2" | "v3" | "v4";
 
 const VersionContext = createContext<{
   version: Version;
   setVersion: (v: Version) => void;
-}>({ version: "v3", setVersion: () => {} });
+}>({ version: "v4", setVersion: () => {} });
 
 export function VersionProvider({ children }: { children: React.ReactNode }) {
-  const [version, setVersion] = useState<Version>("v3");
+  const [version, setVersion] = useState<Version>("v4");
   return (
     <VersionContext.Provider value={{ version, setVersion }}>
       {children}

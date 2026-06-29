@@ -3,12 +3,13 @@
 import { ThemeToggle } from "./theme-toggle";
 import { useVersion } from "./version-context";
 
-type VersionOption = { label: "v1" | "v2" | "v3"; enabled: true };
+type VersionOption = { label: "v1" | "v2" | "v3" | "v4"; enabled: true };
 
 const versions: VersionOption[] = [
   { label: "v1", enabled: true },
   { label: "v2", enabled: true },
   { label: "v3", enabled: true },
+  { label: "v4", enabled: true },
 ];
 
 export function V3Footer() {
